@@ -1,24 +1,59 @@
 {
   "expo": {
-    "name": "nfc-ticket-reader",
+    "name": "NFC Ticket Reader",
     "slug": "nfc-ticket-reader",
-    "version": "1.0.0",
+    "version": "1.2.4",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
-    "userInterfaceStyle": "light",
+    "userInterfaceStyle": "dark",
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": false,
+      "infoPlist": {
+        "NFCReaderUsageDescription": "This app reads NFC tickets for event entry validation"
+      }
     },
     "android": {
+      "versionCode": 17,
       "adaptiveIcon": {
-        "backgroundColor": "#E6F4FE",
+        "backgroundColor": "#0A0A1A",
         "foregroundImage": "./assets/android-icon-foreground.png",
         "backgroundImage": "./assets/android-icon-background.png",
         "monochromeImage": "./assets/android-icon-monochrome.png"
-      }
+      },
+      "permissions": [
+        "android.permission.NFC"
+      ],
+      "intentFilters": [
+        {
+          "action": "android.nfc.action.TECH_DISCOVERED",
+          "category": [
+            "android.intent.category.DEFAULT"
+          ]
+        }
+      ],
+      "package": "com.etovar.dev.nfcticketreader"
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "plugins": [
+      [
+        "react-native-nfc-manager",
+        {
+          "nfcTechRequest": true,
+          "isoDep": true,
+          "selectIdentifiers": [
+            "4F53452E5641532E3031",
+            "D276000085010100"
+          ]
+        }
+      ]
+    ],
+    "owner": "couch355",
+    "extra": {
+      "eas": {
+        "projectId": "8284b87a-f18d-4881-9c2c-d97567ddeeac"
+      }
     }
   }
 }
