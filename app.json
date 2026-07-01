@@ -2,7 +2,7 @@
   "expo": {
     "name": "NFC Ticket Reader",
     "slug": "nfc-ticket-reader",
-    "version": "1.2.4",
+    "version": "1.2.5",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "dark",
@@ -13,7 +13,7 @@
       }
     },
     "android": {
-      "versionCode": 17,
+      "versionCode": 18,
       "adaptiveIcon": {
         "backgroundColor": "#0A0A1A",
         "foregroundImage": "./assets/android-icon-foreground.png",

@@ -835,11 +835,32 @@ export async function scanTicket(merchantId, onProgress = () => {}) {
     await NfcManager.requestTechnology(NfcTech.IsoDep);
     dbg('NFC', 'IsoDep technology acquired ✓');
 
-    // Log max transceive length at start
+    // ── Configure IsoDep channel for large APDUs ──
+    // Explicitly set timeout and max transceive length so the
+    // 193B NEGOTIATE APDU doesn't fail on Urovo hardware.
+    try {
+      if (typeof NfcManager.isoDepHandler.setTimeout === 'function') {
+        await NfcManager.isoDepHandler.setTimeout(5000);
+        dbg('NFC', '⏱ IsoDep timeout set: 5000ms');
+      }
+    } catch (_e) {
+      dbg('NFC', `setTimeout not available: ${_e.message}`);
+    }
+
+    try {
+      if (typeof NfcManager.isoDepHandler.setMaxTransceiveLength === 'function') {
+        await NfcManager.isoDepHandler.setMaxTransceiveLength(261);
+        dbg('NFC', '📐 maxTransceiveLength set: 261B');
+      }
+    } catch (_e) {
+      dbg('NFC', `setMaxTransceiveLength not available: ${_e.message}`);
+    }
+
+    // Log effective max transceive length
     try {
       if (typeof NfcManager.isoDepHandler.getMaxTransceiveLength === 'function') {
         const maxLen = await NfcManager.isoDepHandler.getMaxTransceiveLength();
-        dbg('NFC', `📏 maxTransceiveLength: ${maxLen}B`);
+        dbg('NFC', `📏 maxTransceiveLength efectivo: ${maxLen}B`);
       }
     } catch (_e) {
       dbg('NFC', 'maxTransceiveLength: no disponible');
